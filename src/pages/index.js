@@ -1,21 +1,11 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Text,
-  Tooltip,
-  VStack,
-} from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import MyNFT from "../abis/MyNFT.json";
-import { useState } from "react";
+import { Button, HStack, Text, Tooltip, VStack } from "@chakra-ui/react";
 import detectEthereumProvider from "@metamask/detect-provider";
-import Web3 from "web3";
 import Image from "next/image";
-import Header from "./component/Header";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import Web3 from "web3";
 import Footer from "./component/Footer";
-import { ethers } from "ethers";
+import Header from "./component/Header";
 
 export default function Login() {
   const router = useRouter();
