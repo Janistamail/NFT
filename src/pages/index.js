@@ -19,18 +19,6 @@ export default function Login() {
   const loadBlockchainData = async (web3, connectedWallet) => {
     const ganacheAccounts = await web3.eth.getAccounts(); //IMPROVE:
     setAccounts(ganacheAccounts);
-
-    // const networkData = MyNFT.networks[networkId];
-
-    // if (networkData) {
-    //   const abi = MyNFT.abi;
-    //   const contractAddress = networkData.address;
-    //   //use web3 to create contract and interact with smart contracts
-    //   const contract = new web3.eth.Contract(abi, contractAddress);
-    //   if (contract) {
-    //     const admin = await contract.methods.admin().call();
-    //     // const _owner = await contract.methods.getOwner().call();
-    //   }
     if (
       connectedWallet &&
       connectedWallet.toUpperCase() === ganacheAccounts[0].toUpperCase()
@@ -40,9 +28,6 @@ export default function Login() {
       //FIX
       console.log("not admin");
     }
-    // } else {
-    //   window.alert("Smart contract not deployed");
-    // }
   };
   //----------------------------------------------
   function web3_check_metamask() {

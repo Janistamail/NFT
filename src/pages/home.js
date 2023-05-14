@@ -10,21 +10,23 @@ import {
 import detectEthereumProvider from "@metamask/detect-provider";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Web3 from "web3";
+import { useStudents } from "../../hooks/use-students.hook";
 import MyNFT from "../abis/MyNFT.json";
 import Footer from "./component/Footer";
 import Header from "./component/Header";
 import StudentTable from "./component/StudentTable";
-import { StudentContext } from "./_app";
 
 export default function Home() {
+  const { students, isStudentsLoading } = useStudents();
   const [admin, setAdmin] = useState();
   const router = useRouter();
   const [accounts, setAccounts] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [contract, setContract] = useState();
-  const { students, setStudents } = useContext(StudentContext);
+
+  if (isStudentsLoading) <div>...loading</div>;
 
   const init = async () => {
     const provider = await detectEthereumProvider();
@@ -74,12 +76,7 @@ export default function Home() {
       </AlertDialog>
       <Header />
 
-      <StudentTable
-        admin={admin}
-        contract={contract}
-        students={students}
-        setStudents={setStudents}
-      >
+      <StudentTable admin={admin} contract={contract} students={students}>
         <Tooltip
           w="250px"
           h="100px"
@@ -89,13 +86,13 @@ export default function Home() {
           label="Click to upload all student's certificates to IPFS"
           hasArrow
           placement="left"
-          isDisabled={students[0]?.url}
+          isDisabled={students?.[0]?.url}
         >
           <HStack gap={10} justifyContent="center" mt={70} ml={"auto"} mr={20}>
             <Button
               colorScheme="teal"
               size="lg"
-              disabled={students[0]?.url}
+              disabled={students?.[0]?.url}
               onClick={() => {
                 setIsLoading(true);
                 router.push("about");

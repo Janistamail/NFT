@@ -23,9 +23,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
-import MyNFT from "../../abis/MyNFT.json";
-import { StudentContext } from "../_app";
+import React, { useState } from "react";
 
 const OverFlowText = ({ children, label }) => {
   return (
@@ -55,20 +53,20 @@ const OverFlowText = ({ children, label }) => {
   );
 };
 
-const StudentTable = ({ children, admin, contract, students, setStudents }) => {
+const StudentTable = ({ children, admin, contract, students }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [editStudentAccount, setEditStudentAccount] = useState("");
-  const onSaveAccount = () => {
-    onClose();
-    const newData = students.map((s) => {
-      if (s.id === editStudentAccount.id) {
-        s.account = editStudentAccount.account;
-      }
-      return s;
-    });
-    setStudents(newData);
-  };
+  // const onSaveAccount = () => {
+  //   onClose();
+  //   const newData = students.map((s) => {
+  //     if (s.id === editStudentAccount.id) {
+  //       s.account = editStudentAccount.account;
+  //     }
+  //     return s;
+  //   });
+  //   setStudents(newData);
+  // };
 
   const onDiscard = () => {
     onClose();
@@ -115,9 +113,9 @@ const StudentTable = ({ children, admin, contract, students, setStudents }) => {
           </ModalBody>
           <ModalFooter gap={2}>
             <Button onClick={onDiscard}>Discard</Button>
-            <Button colorScheme="teal" onClick={onSaveAccount}>
+            {/* <Button colorScheme="teal" onClick={onSaveAccount}>
               Save
-            </Button>
+            </Button> */}
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -140,7 +138,7 @@ const StudentTable = ({ children, admin, contract, students, setStudents }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {students.map((student, index) => (
+            {students?.map((student, index) => (
               <Tr key={student.id}>
                 <Td w={"60px"} fontSize={"md"}>
                   {student.tokenId}

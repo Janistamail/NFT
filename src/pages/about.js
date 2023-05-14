@@ -4,12 +4,13 @@ import { useContext } from "react";
 import { Button, Text, VStack } from "@chakra-ui/react";
 import { StudentContext } from "./_app";
 import { useRouter } from "next/router";
+import { useIPFSMutation } from "../../hooks/use-ipfs.hook";
 const storage = new ThirdwebStorage();
 
 export default function about({ data }) {
   const { students, setStudents } = useContext(StudentContext);
   const router = useRouter();
-  console.log({ data });
+  const { trigger } = useIPFSMutation();
 
   if (students) {
     setStudents(
@@ -28,6 +29,7 @@ export default function about({ data }) {
       justifyContent={"center"}
       style={{ height: "100vh" }}
     >
+      <Button onClick={() => trigger("sdfjklsdjfkld")}></Button>
       <Text fontSize="4xl" color={"teal"} fontWeight="bold" mb={10}>
         Successfully uploaded certificate files to IPFS
       </Text>
