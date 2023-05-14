@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "gen": "node ./certificate/index.js",
-    "ganache": "ganache-cli -s 123 -p 7545"
+    "ganache": "ganache -s 123 -p 7545"
   },
   "homepage": "./",
   "dependencies": {
@@ -15,11 +15,11 @@
     "@chakra-ui/react": "^2.4.6",
     "@metamask/detect-provider": "^2.0.0",
     "@next/font": "13.1.1",
-    "@openzeppelin/contracts": "^4.8.0",
+    "@openzeppelin/contracts": "^4.8.3",
     "@thirdweb-dev/storage": "^1.0.6",
     "bignumber.js": "^9.1.1",
     "eslint-config-next": "13.1.1",
-    "ethers": "^6.3.0",
+    "ganache": "^7.8.0",
     "ipfs-core": "^0.17.0",
     "ipfs-http-client": "^59.0.0",
     "next": "^13.1.1",
