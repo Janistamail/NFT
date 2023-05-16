@@ -54,6 +54,7 @@ const OverFlowText = ({ children, label }) => {
 };
 
 const StudentTable = ({ children, admin, contract, students }) => {
+  console.log(students);
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [editStudentAccount, setEditStudentAccount] = useState("");
@@ -141,7 +142,7 @@ const StudentTable = ({ children, admin, contract, students }) => {
             {students?.map((student, index) => (
               <Tr key={student.id}>
                 <Td w={"60px"} fontSize={"md"}>
-                  {student.tokenId}
+                  {student.token_id}
                 </Td>
                 <Td
                   fontSize={"md"}
@@ -150,13 +151,13 @@ const StudentTable = ({ children, admin, contract, students }) => {
                   cursor="pointer"
                   onClick={() => {
                     router.push({
-                      pathname: `/student/${student.tokenId}`,
+                      pathname: `/student/${student.token_id}`,
                     });
                   }}
                 >
-                  {student.id}
+                  {student.student_id}
                 </Td>
-                <OverFlowText label={student?.account}>
+                <OverFlowText label={student?.wallet_account}>
                   <EditIcon
                     mr={2}
                     color={"red.500"}
@@ -168,12 +169,12 @@ const StudentTable = ({ children, admin, contract, students }) => {
                   />
                 </OverFlowText>
                 <Td fontSize={"md"} w={"110px"}>
-                  {student.name}
+                  {student.firstname}
                 </Td>
                 <Td fontSize={"md"} w={"110px"}>
                   {student.lastname}
                 </Td>
-                <OverFlowText label={student?.url}></OverFlowText>
+                <OverFlowText label={student?.ipfs_url}></OverFlowText>
                 <Td fontSize={"md"}>
                   <Button
                     colorScheme="teal"

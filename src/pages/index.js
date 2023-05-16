@@ -10,15 +10,13 @@ import Header from "./component/Header";
 export default function Login() {
   const router = useRouter();
   const [accounts, setAccounts] = useState([]);
-  const [connectedAccount, setConnectedAccount] = useState();
-  const [showDetect, setShowDetect] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-
-  const [contract, setContract] = useState();
 
   const loadBlockchainData = async (web3, connectedWallet) => {
     const ganacheAccounts = await web3.eth.getAccounts(); //IMPROVE:
     setAccounts(ganacheAccounts);
+    // router.push({ pathname: "/owner", query: { account: connectedWallet } });
+    console.log(ganacheAccounts);
     if (
       connectedWallet &&
       connectedWallet.toUpperCase() === ganacheAccounts[0].toUpperCase()
@@ -26,7 +24,7 @@ export default function Login() {
       router.push("/home");
     } else {
       //FIX
-      console.log("not admin");
+      router.push({ pathname: "/owner", query: connectedWallet });
     }
   };
   //----------------------------------------------
@@ -100,8 +98,6 @@ export default function Login() {
           w="850px"
           h="200px"
           p="50px"
-          onMouseOver={() => setShowDetect(true)}
-          onMouseOut={() => setShowDetect(false)}
         >
           <Text fontSize={"3xl"}>Hover here to detect Metamask extension</Text>
           <Image src="/detect.gif" alt="Metamask" width="200" height="200" />

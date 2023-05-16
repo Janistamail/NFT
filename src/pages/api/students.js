@@ -1,42 +1,59 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 const STUDENT = [
   {
-    tokenId: "1",
-    id: "645162010001",
-    name: "Albert",
+    id: 1,
+    student_id: "645162010001",
+    token_id: 1,
+    firstname: "Albert",
     lastname: "Lee",
-    account: "0x793303e187ED167745D45894D5AA3A5B6C501041",
+    wallet_account: "0x793303e187ED167745D45894D5AA3A5B6C501041",
+    ipfs_url: "",
   },
   {
-    tokenId: "2",
-    id: "645162010002",
-    name: "Kelvin",
+    id: 2,
+    student_id: "645162010002",
+    token_id: 2,
+    firstname: "Kelvin",
     lastname: "Island",
-    account: "0xf0b60768436Ec05dA6C959F5E5Cf78F1A5169f18",
+    wallet_account: "0xf0b60768436Ec05dA6C959F5E5Cf78F1A5169f18",
+    ipfs_url: "",
   },
   {
-    tokenId: "3",
-    id: "645162010003",
-    name: "Michael",
+    id: 3,
+    student_id: "645162010003",
+    token_id: 3,
+    firstname: "Michael",
     lastname: "Jackson",
-    account: "0x821C2d64f6c9a9E15Cdd81f3D952884740BC013E",
+    wallet_account: "0x821C2d64f6c9a9E15Cdd81f3D952884740BC013E",
+    ipfs_url: "",
   },
   {
-    tokenId: "4",
-    id: "645162010004",
-    name: "Jack",
+    id: 4,
+    student_id: "645162010004",
+    token_id: 4,
+    firstname: "Jack",
     lastname: "Sparow",
-    account: "0x0477885Fa34630650a77bd3A2647EAe3e54D782b",
+    wallet_account: "0x0477885Fa34630650a77bd3A2647EAe3e54D782b",
+    ipfs_url: "",
   },
 ];
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   try {
     if (req.method === "GET") {
-      const data = STUDENT;
+      const response = await fetch("http://localhost:8000/api/students");
+      const data = await response.json();
       res.status(200).send(data);
     } else if (req.method === "POST") {
-      const data = STUDENT;
+      const body = req.body;
+      const response = await fetch("http://localhost:8000/api/students", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+
       res.status(200).send(data);
     }
   } catch (e) {

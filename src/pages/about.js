@@ -1,26 +1,18 @@
+import { Button, Text, VStack } from "@chakra-ui/react";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import fs from "fs";
-import { useContext } from "react";
-import { Button, Text, VStack } from "@chakra-ui/react";
-import { StudentContext } from "./_app";
 import { useRouter } from "next/router";
-import { useIPFSMutation } from "../../hooks/use-ipfs.hook";
+import useStudentsMutation from "../../hooks/use-students-mutation.hook";
+import { useStudents } from "../../hooks/use-students.hook";
 const storage = new ThirdwebStorage();
 
 export default function about({ data }) {
-  const { students, setStudents } = useContext(StudentContext);
+  const { students } = useStudents();
+  const { trigger } = useStudentsMutation();
   const router = useRouter();
-  const { trigger } = useIPFSMutation();
-
-  if (students) {
-    setStudents(
-      students.map((student) => {
-        if (data[student.id]) {
-          student.url = data[student.id];
-        }
-        return student;
-      })
-    );
+  const arrayData = [];
+  for (const [key, value] of Object.entries(data)) {
+    arrayData.push({ student_id: key, ipfs_url: value });
   }
 
   return (
@@ -29,7 +21,6 @@ export default function about({ data }) {
       justifyContent={"center"}
       style={{ height: "100vh" }}
     >
-      <Button onClick={() => trigger("sdfjklsdjfkld")}></Button>
       <Text fontSize="4xl" color={"teal"} fontWeight="bold" mb={10}>
         Successfully uploaded certificate files to IPFS
       </Text>
@@ -37,6 +28,7 @@ export default function about({ data }) {
         colorScheme="teal"
         size="lg"
         onClick={() => {
+          trigger(arrayData);
           router.push("/home");
         }}
       >

@@ -1,7 +1,5 @@
 import useSWR from "swr";
 
-// const myFetch = createFetch("http://127.0.0.1:8000");
-
 const fetcher = (key) => fetch(key).then((res) => res.json());
 
 export function useStudents() {
