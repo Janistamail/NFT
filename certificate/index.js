@@ -1,51 +1,34 @@
 const puppeteer = require("puppeteer");
-// const { STUDENT } = require('../constants/students')
 
 const STUDENT = [
-  {
-    tokenId: "1",
-    id: "645162010001",
-    name: "Albert",
-    lastname: "Lee",
-    account: "0x793303e187ED167745D45894D5AA3A5B6C501041",
-  },
-  {
-    tokenId: "2",
-    id: "645162010002",
-    name: "Kelvin",
-    lastname: "Island",
-    account: "0xf0b60768436Ec05dA6C959F5E5Cf78F1A5169f18",
-  },
-  {
-    tokenId: "3",
-    id: "645162010003",
-    name: "Michael",
-    lastname: "Jackson",
-    account: "0x821C2d64f6c9a9E15Cdd81f3D952884740BC013E",
-  },
-  {
-    tokenId: "4",
-    id: "645162010004",
-    name: "Jack",
-    lastname: "Sparow",
-    account: "0x0477885Fa34630650a77bd3A2647EAe3e54D782b",
-  },
+  "645162010001",
+  "645162010002",
+  "645162010003",
+  "645162010004",
 ];
 
 async function generateImage() {
-  STUDENT.forEach(async (student) => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    console.log(`http://localhost:3000/student/${student.id}`);
-
-    await page.goto(`http://localhost:3000/student/${student.id}`, {
-      waitUntil: "networkidle0",
+  const selector = "body";
+  try {
+    STUDENT.forEach(async (id) => {
+      const browser = await puppeteer.launch({ headless: "new" });
+      const page = await browser.newPage();
+      //check 3000 or 3001!!!!!!
+      await page.goto(`http://localhost:3001/student/${id}`, {
+        waitUntil: "domcontentloaded",
+      });
+      await page.waitForNavigation({ waitUntil: "networkidle0" });
+      // await page.waitForFunction(`document.querySelector("${selector}") != 0`, {
+      //   timeout: 10_000,
+      // });
+      await page.waitForSelector(selector);
+      await page.setViewport({ width: 600, height: 400 });
+      await page.screenshot({ path: `./certificate/images/${id}.png` });
+      await browser.close();
     });
-    await page.waitForLoadState("networkidle0");
-    await page.setViewport({ width: 700, height: 700 });
-    await page.screenshot({ path: `./certificate/images/${student.id}.png` });
-    await browser.close();
-  });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 generateImage();

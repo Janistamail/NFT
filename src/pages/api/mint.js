@@ -1,12 +1,9 @@
 export default async function handler(req, res) {
+  //sendrequest in hooks = tell detail, in api = real call BN
   try {
-    if (req.method === "GET") {
-      const response = await fetch("http://localhost:8000/api/students");
-      const data = await response.json();
-      res.status(200).send(data);
-    } else if (req.method === "POST") {
+    if (req.method === "POST") {
       const body = req.body;
-      const response = await fetch("http://localhost:8000/api/students", {
+      const response = await fetch("http://localhost:8000/api/mint", {
         method: "POST",
         body: JSON.stringify(body),
         headers: {

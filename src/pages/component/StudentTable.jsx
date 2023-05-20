@@ -24,6 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import useMintMutation from "../../../hooks/use-mint.hook";
 
 const OverFlowText = ({ children, label }) => {
   return (
@@ -58,6 +59,7 @@ const StudentTable = ({ children, admin, contract, students }) => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [editStudentAccount, setEditStudentAccount] = useState("");
+  const { triggerMint } = useMintMutation();
   // const onSaveAccount = () => {
   //   onClose();
   //   const newData = students.map((s) => {
@@ -80,8 +82,11 @@ const StudentTable = ({ children, admin, contract, students }) => {
     setEditStudentAccount(newData);
   };
 
-  const mintFunc = async (index) => {
-    console.log(index);
+  const mintFunc = async (index, student_id) => {
+    triggerMint({
+      student_id: student_id,
+      mintTo: 1,
+    });
     //global --> login with this account
     try {
       await contract.methods
@@ -140,7 +145,7 @@ const StudentTable = ({ children, admin, contract, students }) => {
           </Thead>
           <Tbody>
             {students?.map((student, index) => (
-              <Tr key={student.id}>
+              <Tr key={student.id} h={"65px"}>
                 <Td w={"60px"} fontSize={"md"}>
                   {student.token_id}
                 </Td>
@@ -151,7 +156,7 @@ const StudentTable = ({ children, admin, contract, students }) => {
                   cursor="pointer"
                   onClick={() => {
                     router.push({
-                      pathname: `/student/${student.token_id}`,
+                      pathname: `/student/${student.student_id}`,
                     });
                   }}
                 >
@@ -175,14 +180,25 @@ const StudentTable = ({ children, admin, contract, students }) => {
                   {student.lastname}
                 </Td>
                 <OverFlowText label={student?.ipfs_url}></OverFlowText>
-                <Td fontSize={"md"}>
-                  <Button
-                    colorScheme="teal"
-                    size="lg"
-                    onClick={() => mintFunc(index + 1)}
-                  >
-                    Mint
-                  </Button>
+                <Td fontSize={"md"} alignItems={"center"} w={"65px"}>
+                  {student?.is_minted === 0 ? (
+                    <Button
+                      colorScheme="teal"
+                      size="lg"
+                      onClick={() => mintFunc(index + 1, student.student_id)}
+                    >
+                      Mint
+                    </Button>
+                  ) : (
+                    <Text
+                      ml={7}
+                      color={"red.400"}
+                      fontSize={"xl"}
+                      fontWeight={"bold"}
+                    >
+                      ✅
+                    </Text>
+                  )}
                 </Td>
               </Tr>
             ))}
