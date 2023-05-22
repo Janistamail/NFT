@@ -4,12 +4,35 @@ import Header from "./component/Header";
 import { useRouter } from "next/router";
 import { useStudents } from "../../hooks/use-students.hook";
 import { useEffect, useMemo, useState } from "react";
+import detectEthereumProvider from "@metamask/detect-provider";
+import Web3 from "web3";
+import MyNFT from "../abis/MyNFT.json";
 
 const owner = () => {
   const router = useRouter();
   const { account } = router.query;
   const { students } = useStudents();
   const [userProfile, setUserProfile] = useState();
+  const [nfts, setNFTs] = useState([]);
+
+  const getNFTs = async (tokenId) => {
+    const provider = await detectEthereumProvider();
+    window.web3 = new Web3(provider);
+    const web3 = window.web3;
+    const networkId = await web3.eth.net.getId();
+    const networkData = MyNFT.networks[networkId];
+
+    if (networkData) {
+      const abi = MyNFT.abi;
+      const contractAddress = networkData.address;
+      const contract = new web3.eth.Contract(abi, contractAddress);
+      if (tokenId) {
+        const tokenURI = await contract.methods.tokenURI(tokenId).call();
+        const data = await fetch(tokenURI).then((res) => res.json());
+        setNFTs(data?.image);
+      }
+    }
+  };
 
   useEffect(() => {
     if (account) {
@@ -17,21 +40,23 @@ const owner = () => {
         return student?.wallet_account?.toUpperCase() === account.toUpperCase();
       });
       setUserProfile(data?.[0]);
+      getNFTs(data?.[0]?.token_id);
     }
   }, [account, students]);
+
   return (
     <VStack
       bgColor={"#81E6D9"}
       height={"100vh"}
       position={"relative"}
-      p={"150px"}
+      pt={"135px"}
     >
       <Header />
       <Flex
-        borderRadius={"25%"}
+        borderRadius={"50%"}
         bgColor={"white"}
         w={"700px"}
-        h={"300px"}
+        h={"150px"}
         direction={"column"}
         justifyContent={"center"}
         alignItems={"center"}
@@ -41,10 +66,13 @@ const owner = () => {
         <Text fontSize={"4xl"}>
           {userProfile?.firstname} {userProfile?.lastname}
         </Text>
-        <Text fontSize={"2xl"}>{userProfile?.student_id}</Text>
-        <Divider color={"blackAlpha.400"} border={"2px"} />
-        <Text fontSize={"2xl"}>{userProfile?.wallet_account}</Text>
+        <Text fontSize={"md"}>{userProfile?.student_id}</Text>
+        <Divider color={"blackAlpha.400"} border={"2px"} my={1} />
+        <Text fontSize={"md"}>{userProfile?.wallet_account}</Text>
       </Flex>
+      <div style={{ marginTop: "30px" }}>
+        <img src={nfts} alt={"nft"} />
+      </div>
 
       <Footer />
     </VStack>

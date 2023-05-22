@@ -55,7 +55,6 @@ const OverFlowText = ({ children, label }) => {
 };
 
 const StudentTable = ({ children, admin, contract, students }) => {
-  console.log(students);
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [editStudentAccount, setEditStudentAccount] = useState("");
@@ -83,15 +82,19 @@ const StudentTable = ({ children, admin, contract, students }) => {
   };
 
   const mintFunc = async (index, student_id) => {
-    triggerMint({
-      student_id: student_id,
-      mintTo: 1,
-    });
     //global --> login with this account
     try {
       await contract.methods
-        .mint(students[index].account, index, students[index].url)
+        .mint(
+          students[index].wallet_account,
+          index + 1,
+          students[index].ipfs_url
+        )
         .send({ from: admin, gas: "1000000" });
+      triggerMint({
+        student_id: student_id,
+        mintTo: 1,
+      });
 
       //เอา owner ไปเพ่ิม NFTในmetamaskต่อ
       const NFTOwner = await contract.methods
@@ -185,7 +188,7 @@ const StudentTable = ({ children, admin, contract, students }) => {
                     <Button
                       colorScheme="teal"
                       size="lg"
-                      onClick={() => mintFunc(index + 1, student.student_id)}
+                      onClick={() => mintFunc(index, student.student_id)}
                     >
                       Mint
                     </Button>

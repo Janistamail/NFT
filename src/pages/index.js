@@ -15,17 +15,19 @@ export default function Login() {
   const loadBlockchainData = async (web3, connectedWallet) => {
     const ganacheAccounts = await web3.eth.getAccounts(); //IMPROVE:
     setAccounts(ganacheAccounts);
-    // router.push({ pathname: "/owner", query: { account: connectedWallet } });
     console.log(ganacheAccounts);
-    if (
-      connectedWallet &&
-      connectedWallet.toUpperCase() === ganacheAccounts[0].toUpperCase()
-    ) {
-      router.push("/home");
-    } else {
-      //FIX
-      router.push({ pathname: "/owner", query: connectedWallet });
-    }
+    router.push({ pathname: "/owner", query: { account: connectedWallet } });
+
+    // if (
+    //   connectedWallet &&
+    //   connectedWallet.toUpperCase() === ganacheAccounts[0].toUpperCase()
+    // ) {
+    //   router.push("/home");
+    // } else {
+    //   //FIX
+    //      router.push({ pathname: "/owner", query: {account: connectedWallet} });
+
+    // }
   };
   //----------------------------------------------
   function web3_check_metamask() {
