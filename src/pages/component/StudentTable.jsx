@@ -36,19 +36,16 @@ const OverFlowText = ({ children, label }) => {
       p="12px"
     >
       <Td maxW="200px" w={200}>
-        <Flex>
-          {children}
-          <div
-            style={{
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              maxWidth: "200px",
-            }}
-          >
-            {label ?? "-"}
-          </div>
-        </Flex>
+        <div
+          style={{
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            maxWidth: "200px",
+          }}
+        >
+          {label ?? "-"}
+        </div>
       </Td>
     </Tooltip>
   );
@@ -84,13 +81,22 @@ const StudentTable = ({ children, admin, contract, students }) => {
   const mintFunc = async (index, student_id) => {
     //global --> login with this account
     try {
+      const estimatedGas = await contract.methods
+        .mint(
+          students[index].wallet_account,
+          index + 1000,
+          students[index].ipfs_url
+        )
+        .estimateGas({ from: admin });
+
       await contract.methods
         .mint(
           students[index].wallet_account,
           index + 1,
           students[index].ipfs_url
         )
-        .send({ from: admin, gas: "1000000" });
+        .send({ from: admin, gas: Math.round(estimatedGas * 1.5) });
+
       triggerMint({
         student_id: student_id,
         mintTo: 1,
@@ -166,7 +172,7 @@ const StudentTable = ({ children, admin, contract, students }) => {
                   {student.student_id}
                 </Td>
                 <OverFlowText label={student?.wallet_account}>
-                  <EditIcon
+                  {/* <EditIcon
                     mr={2}
                     color={"red.500"}
                     cursor={"pointer"}
@@ -174,7 +180,7 @@ const StudentTable = ({ children, admin, contract, students }) => {
                       setEditStudentAccount({ ...student });
                       onOpen();
                     }}
-                  />
+                  /> */}
                 </OverFlowText>
                 <Td fontSize={"md"} w={"110px"}>
                   {student.firstname}

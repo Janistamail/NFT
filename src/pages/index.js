@@ -7,6 +7,7 @@ import Web3 from "web3";
 import Footer from "./component/Footer";
 import Header from "./component/Header";
 
+const devMode = false; //metamask = false
 export default function Login() {
   const router = useRouter();
   const [accounts, setAccounts] = useState([]);
@@ -38,20 +39,27 @@ export default function Login() {
 
   async function web3_metamask_login() {
     // Check first if the user has the MetaMask installed
-    if (web3_check_metamask()) {
-      const provider = await detectEthereumProvider();
-
-      if (provider) {
-        console.log("ethereum wallet is connected");
-        window.web3 = new Web3(provider);
-        const web3 = window.web3;
-        ethereum
-          .request({ method: "eth_requestAccounts" })
-          .then(async (connectedWallet) => {
-            await loadBlockchainData(web3, connectedWallet[0]);
-          });
-      } else {
-        console.log("no ethereum wallet detected (no provider)");
+    if (devMode) {
+      //10 accounts
+      const web3 = new Web3(
+        new Web3.providers.WebsocketProvider("ws://localhost:7545")
+      );
+    } else {
+      //metamask
+      if (web3_check_metamask()) {
+        const provider = await detectEthereumProvider();
+        if (provider) {
+          console.log("ethereum wallet is connected");
+          window.web3 = new Web3(provider);
+          const web3 = window.web3;
+          ethereum
+            .request({ method: "eth_requestAccounts" })
+            .then(async (connectedWallet) => {
+              await loadBlockchainData(web3, connectedWallet[0]);
+            });
+        } else {
+          console.log("no ethereum wallet detected (no provider)");
+        }
       }
     }
   }
