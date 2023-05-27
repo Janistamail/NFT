@@ -14,10 +14,8 @@ contract MyNFT is Ownable, ERC721URIStorage {
         address recipient,
         uint256 tokenId,
         string memory tokenURI
-    ) public onlyOwner {
+    ) public {
         _mint(recipient, tokenId);
         _setTokenURI(tokenId, tokenURI);
     }
-   
 }
-

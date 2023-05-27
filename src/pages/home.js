@@ -7,13 +7,10 @@ import {
   HStack,
   Tooltip,
 } from "@chakra-ui/react";
-import detectEthereumProvider from "@metamask/detect-provider";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import Web3 from "web3";
+import { useState } from "react";
 import { useStudents } from "../../hooks/use-students.hook";
-import MyNFT from "../abis/MyNFT.json";
 import Footer from "./component/Footer";
 import Header from "./component/Header";
 import StudentTable from "./component/StudentTable";
@@ -28,32 +25,32 @@ export default function Home() {
 
   if (isStudentsLoading) <div>...loading</div>;
 
-  const init = async () => {
-    const provider = await detectEthereumProvider();
-    window.web3 = new Web3(provider);
-    const web3 = window.web3;
-    const networkId = await web3.eth.net.getId();
-    const networkData = MyNFT.networks[networkId];
+  // const init = async () => {
+  //   const provider = await detectEthereumProvider();
+  //   window.web3 = new Web3(provider);
+  //   const web3 = window.web3;
+  //   const networkId = await web3.eth.net.getId();
+  //   const networkData = MyNFT.networks[networkId];
 
-    if (networkData) {
-      const abi = MyNFT.abi;
-      const contractAddress = networkData.address;
-      //use web3 to create contract and interact with smart contracts
-      const contractData = new web3.eth.Contract(abi, contractAddress);
-      if (contractData) {
-        const admin = await contractData.methods.admin().call();
-        setAdmin(admin);
-        setContract(contractData);
-        // const _owner = await contract.methods.getOwner().call();
-      }
-    } else {
-      window.alert("Smart contract not deployed");
-    }
-  };
+  //   if (networkData) {
+  //     const abi = MyNFT.abi;
+  //     const contractAddress = networkData.address;
+  //     //use web3 to create contract and interact with smart contracts
+  //     const contractData = new web3.eth.Contract(abi, contractAddress);
+  //     if (contractData) {
+  //       const admin = await contractData.methods.admin().call();
+  //       setAdmin(admin);
+  //       setContract(contractData);
+  //       // const _owner = await contract.methods.getOwner().call();
+  //     }
+  //   } else {
+  //     window.alert("Smart contract not deployed");
+  //   }
+  // };
 
-  useEffect(() => {
-    init();
-  }, []);
+  // useEffect(() => {
+  //   init();
+  // }, []);
 
   return (
     <Box
@@ -76,7 +73,7 @@ export default function Home() {
       </AlertDialog>
       <Header />
 
-      <StudentTable admin={admin} contract={contract} students={students}>
+      <StudentTable admin={admin} students={students}>
         <Tooltip
           w="250px"
           h="100px"

@@ -4,31 +4,27 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Web3 from "web3";
+import useLoginMutation from "../../hooks/use-login-mutation.hook";
 import Footer from "./component/Footer";
 import Header from "./component/Header";
 
 const devMode = false; //metamask = false
 export default function Login() {
   const router = useRouter();
-  const [accounts, setAccounts] = useState([]);
   const [showLogin, setShowLogin] = useState(false);
-
+  const { isAdmin } = useLoginMutation();
   const loadBlockchainData = async (web3, connectedWallet) => {
     const ganacheAccounts = await web3.eth.getAccounts(); //IMPROVE:
-    setAccounts(ganacheAccounts);
-    console.log(ganacheAccounts);
-    router.push({ pathname: "/owner", query: { account: connectedWallet } });
+    console.log(ganacheAccounts[0]);
+    const isAdminAccount = await isAdmin({
+      login_account: ganacheAccounts[0],
+    });
 
-    // if (
-    //   connectedWallet &&
-    //   connectedWallet.toUpperCase() === ganacheAccounts[0].toUpperCase()
-    // ) {
-    //   router.push("/home");
-    // } else {
-    //   //FIX
-    //      router.push({ pathname: "/owner", query: {account: connectedWallet} });
-
-    // }
+    if (isAdminAccount) {
+      router.push("/home");
+    } else {
+      router.push({ pathname: "/owner", query: { account: connectedWallet } });
+    }
   };
   //----------------------------------------------
   function web3_check_metamask() {

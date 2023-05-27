@@ -1,7 +1,5 @@
-import { EditIcon } from "@chakra-ui/icons";
 import {
   Button,
-  Flex,
   FormControl,
   Input,
   Modal,
@@ -24,7 +22,6 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import useMintMutation from "../../../hooks/use-mint.hook";
 
 const OverFlowText = ({ children, label }) => {
   return (
@@ -51,22 +48,10 @@ const OverFlowText = ({ children, label }) => {
   );
 };
 
-const StudentTable = ({ children, admin, contract, students }) => {
+const StudentTable = ({ children, students }) => {
   const router = useRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onClose } = useDisclosure();
   const [editStudentAccount, setEditStudentAccount] = useState("");
-  const { triggerMint } = useMintMutation();
-  // const onSaveAccount = () => {
-  //   onClose();
-  //   const newData = students.map((s) => {
-  //     if (s.id === editStudentAccount.id) {
-  //       s.account = editStudentAccount.account;
-  //     }
-  //     return s;
-  //   });
-  //   setStudents(newData);
-  // };
-
   const onDiscard = () => {
     onClose();
     setEditStudentAccount("");
@@ -76,40 +61,6 @@ const StudentTable = ({ children, admin, contract, students }) => {
     const newData = { ...editStudentAccount };
     newData.account = e.target.value;
     setEditStudentAccount(newData);
-  };
-
-  const mintFunc = async (index, student_id) => {
-    //global --> login with this account
-    try {
-      const estimatedGas = await contract.methods
-        .mint(
-          students[index].wallet_account,
-          index + 1000,
-          students[index].ipfs_url
-        )
-        .estimateGas({ from: admin });
-
-      await contract.methods
-        .mint(
-          students[index].wallet_account,
-          index + 1,
-          students[index].ipfs_url
-        )
-        .send({ from: admin, gas: Math.round(estimatedGas * 1.5) });
-
-      triggerMint({
-        student_id: student_id,
-        mintTo: 1,
-      });
-
-      //เอา owner ไปเพ่ิม NFTในmetamaskต่อ
-      const NFTOwner = await contract.methods
-        .ownerOf(index)
-        .send({ from: admin });
-      console.log("Jack", NFTOwner);
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   return (
@@ -128,9 +79,6 @@ const StudentTable = ({ children, admin, contract, students }) => {
           </ModalBody>
           <ModalFooter gap={2}>
             <Button onClick={onDiscard}>Discard</Button>
-            {/* <Button colorScheme="teal" onClick={onSaveAccount}>
-              Save
-            </Button> */}
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -149,7 +97,7 @@ const StudentTable = ({ children, admin, contract, students }) => {
               <Th fontSize="lg">Firstname</Th>
               <Th fontSize="lg">Lastname</Th>
               <Th fontSize="lg">Certificate</Th>
-              <Th fontSize="lg">Verified</Th>
+              <Th fontSize="lg">Mint status</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -171,17 +119,7 @@ const StudentTable = ({ children, admin, contract, students }) => {
                 >
                   {student.student_id}
                 </Td>
-                <OverFlowText label={student?.wallet_account}>
-                  {/* <EditIcon
-                    mr={2}
-                    color={"red.500"}
-                    cursor={"pointer"}
-                    onClick={() => {
-                      setEditStudentAccount({ ...student });
-                      onOpen();
-                    }}
-                  /> */}
-                </OverFlowText>
+                <OverFlowText label={student?.wallet_account}></OverFlowText>
                 <Td fontSize={"md"} w={"110px"}>
                   {student.firstname}
                 </Td>
@@ -189,22 +127,18 @@ const StudentTable = ({ children, admin, contract, students }) => {
                   {student.lastname}
                 </Td>
                 <OverFlowText label={student?.ipfs_url}></OverFlowText>
-                <Td fontSize={"md"} alignItems={"center"} w={"65px"}>
+                <Td
+                  fontSize={"md"}
+                  alignItems={"center"}
+                  w={"65px"}
+                  textAlign={"center"}
+                >
                   {student?.is_minted === 0 ? (
-                    <Button
-                      colorScheme="teal"
-                      size="lg"
-                      onClick={() => mintFunc(index, student.student_id)}
-                    >
-                      Mint
-                    </Button>
+                    <Text color={"red.400"} fontSize={"xl"} fontWeight={"bold"}>
+                       ❌
+                    </Text>
                   ) : (
-                    <Text
-                      ml={7}
-                      color={"red.400"}
-                      fontSize={"xl"}
-                      fontWeight={"bold"}
-                    >
+                    <Text color={"red.400"} fontSize={"xl"} fontWeight={"bold"}>
                       ✅
                     </Text>
                   )}
