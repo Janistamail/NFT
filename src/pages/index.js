@@ -15,7 +15,6 @@ export default function Login() {
   const { isAdmin } = useLoginMutation();
   const loadBlockchainData = async (web3, connectedWallet) => {
     const ganacheAccounts = await web3.eth.getAccounts(); //IMPROVE:
-    console.log(ganacheAccounts[0]);
     const isAdminAccount = await isAdmin({
       login_account: ganacheAccounts[0],
     });

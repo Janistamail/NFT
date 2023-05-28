@@ -11,10 +11,10 @@ async function sendRequest(url, { arg }) {
 }
 
 export default function useMintMutation() {
-  const { trigger: triggerMint, isMutating } = useSWRMutation(
+  const { trigger: triggerMint, isMutating: isMutatingMint } = useSWRMutation(
     "/api/mint",
     sendRequest
   );
 
-  return { triggerMint, isMutating };
+  return { triggerMint, isMutatingMint };
 }

@@ -1,18 +1,20 @@
-import useSWRMutation from "swr";
-// const myFetch = createFetch("http://127.0.0.1:8000");
+import useSWRMutation from "swr/mutation";
 
-const sendRequest = (url, { args }) => {
-  fetch(url, {
+async function sendRequest(url, { arg }) {
+  return fetch(url, {
     method: "POST",
-    body: JSON.stringify(payload),
+    body: JSON.stringify(arg),
     headers: {
-      accept: "application/json",
       "Content-Type": "application/json",
     },
   }).then((res) => res.json());
-};
-const fetcher = (key) => fetch(key).then((res) => res.json());
-export function useIPFSMutation() {
-  const { trigger, isMutating } = useSWRMutation("/api/students", sendRequest);
-  return { trigger, isMutating };
+}
+
+export default function useIPFSMutation() {
+  const { trigger: triggerIPFSUpload, isMutating } = useSWRMutation(
+    "/api/ipfs",
+    sendRequest
+  );
+
+  return { triggerIPFSUpload, isMutating };
 }

@@ -6,6 +6,8 @@ export default async function handler(req, res) {
       res.status(200).send(data);
     } else if (req.method === "POST") {
       const body = req.body;
+      console.log(body);
+
       const response = await fetch("http://localhost:8000/api/students", {
         method: "POST",
         body: JSON.stringify(body),

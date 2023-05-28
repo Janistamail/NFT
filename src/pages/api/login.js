@@ -13,10 +13,10 @@ export default async function handler(req, res) {
       let newData;
       if (data.role === "admin") {
         newData = true;
-      } else {
+      } else if (data.role === "student") {
         newData = false;
       }
-      res.status(200).send(newData);
+      res.status(200).send(data.role);
     }
   } catch (e) {
     res.status(400).send(e);

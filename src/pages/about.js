@@ -3,12 +3,10 @@ import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import fs from "fs";
 import { useRouter } from "next/router";
 import useStudentsMutation from "../../hooks/use-students-mutation.hook";
-import { useStudents } from "../../hooks/use-students.hook";
 const storage = new ThirdwebStorage();
 
 export default function about({ data }) {
-  const { students } = useStudents();
-  const { trigger } = useStudentsMutation();
+  const { triggerUploadIPFS } = useStudentsMutation();
   const router = useRouter();
   const arrayData = [];
   for (const [key, value] of Object.entries(data)) {
@@ -28,7 +26,7 @@ export default function about({ data }) {
         colorScheme="teal"
         size="lg"
         onClick={() => {
-          trigger(arrayData);
+          triggerUploadIPFS(arrayData);
           router.push("/home");
         }}
       >

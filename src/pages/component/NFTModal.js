@@ -9,9 +9,28 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
-function NFTModal({ nfts }) {
+function NFTModal({ tokenId, contract }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [nfts, setNFTs] = useState([]);
+
+  useEffect(() => {
+    const getNFTs = async () => {
+      try {
+        if (tokenId) {
+          const tokenURI = await contract.methods.tokenURI(tokenId).call();
+          await fetch(tokenURI).then(async (res) => {
+            const data = await res.json();
+            setNFTs(data.image);
+          });
+        }
+      } catch (e) {
+        console.log("This tokenID hasn't been minted yet");
+      }
+    };
+    getNFTs();
+  }, [tokenId, contract]);
 
   return (
     <>
@@ -28,23 +47,12 @@ function NFTModal({ nfts }) {
                 <img src={nfts} alt={"nft"} />
               </div>
             ) : (
-              <Text
-                fontSize={"4xl"}
-                fontWeight={"bold"}
-                color={"whiteAlpha.800"}
-              >
-                No NFT
-              </Text>
+              "No NFT"
             )}
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              colorScheme="blue"
-              onClick={onClose}
-              colorScheme="teal"
-              size="lg"
-            >
+            <Button onClick={onClose} colorScheme="teal" size="lg">
               Close
             </Button>
           </ModalFooter>

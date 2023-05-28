@@ -127,12 +127,7 @@ const StudentTable = ({ children, students }) => {
                   {student.lastname}
                 </Td>
                 <OverFlowText label={student?.ipfs_url}></OverFlowText>
-                <Td
-                  fontSize={"md"}
-                  alignItems={"center"}
-                  w={"65px"}
-                  textAlign={"center"}
-                >
+                <Td fontSize={"md"} alignItems={"center"} w={"65px"}>
                   {student?.is_minted === 0 ? (
                     <Text color={"red.400"} fontSize={"xl"} fontWeight={"bold"}>
                        ❌

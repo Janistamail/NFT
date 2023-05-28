@@ -11,7 +11,10 @@ async function sendRequest(url, { arg }) {
 }
 
 export default function useStudentsMutation() {
-  const { trigger, isMutating } = useSWRMutation("/api/students", sendRequest);
+  const { trigger: triggerUploadIPFS, isMutating } = useSWRMutation(
+    "/api/students",
+    sendRequest
+  );
 
-  return { trigger, isMutating };
+  return { triggerUploadIPFS, isMutating };
 }
