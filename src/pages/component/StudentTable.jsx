@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   Input,
@@ -64,7 +65,7 @@ const StudentTable = ({ children, students }) => {
   };
 
   return (
-    <VStack pt={100} gap={5}>
+    <VStack pt={"50px"} gap={5}>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -87,9 +88,15 @@ const StudentTable = ({ children, students }) => {
       <Text fontSize="4xl" color={"teal.400"} fontWeight="bold">
         Students who graduated and will receive graduation certificate in 2000
       </Text>
-      <TableContainer maxW={"80%"} w="1500px" overflowX={"hidden"}>
+      <TableContainer
+        maxW={"80%"}
+        w="1500px"
+        overflowX={"hidden"}
+        overflowY={"auto"}
+        h="500px"
+      >
         <Table variant="striped" colorScheme="teal" size={"sm"}>
-          <Thead height={"50px"}>
+          <Thead height={"50px"} bgColor={"teal.400"}>
             <Tr>
               <Th fontSize="lg">No.</Th>
               <Th fontSize="lg">ID</Th>
@@ -104,7 +111,7 @@ const StudentTable = ({ children, students }) => {
             {students?.map((student, index) => (
               <Tr key={student.id} h={"65px"}>
                 <Td w={"60px"} fontSize={"md"}>
-                  {student.token_id}
+                  {index + 1}
                 </Td>
                 <Td
                   fontSize={"md"}

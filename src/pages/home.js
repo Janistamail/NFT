@@ -1,15 +1,35 @@
-import { Box } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import { useStudents } from "../../hooks/use-students.hook";
 import Footer from "./component/Footer";
 import Header from "./component/Header";
 import StudentTable from "./component/StudentTable";
-import LoadingGif from "./component/loadingGif";
+import { useEffect, useState } from "react";
+import { navigateLogin } from "../../utils/navigateLogin";
+import { useRouter } from "next/router";
+import useLoginMutation from "../../hooks/use-login-mutation.hook";
+import AddStudent from "./component/AddStudent";
 
 export default function Home() {
-  const { students, isStudentsLoading } = useStudents();
+  const { students, isStudentsLoading, mutateStudents } = useStudents();
+  const router = useRouter();
+  const { isAdmin } = useLoginMutation();
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
   if (isStudentsLoading) <div>...loading</div>;
+
+  useEffect(() => {
+    const loginRole = async () => {
+      const { web3, connectedWallet } = await navigateLogin();
+      const { role } = await isAdmin({
+        login_account: connectedWallet,
+      });
+      setIsAuthorized(role === "admin");
+      if (role !== "admin") {
+        router.push("/notAuthorized");
+      }
+    };
+    loginRole();
+  }, []);
 
   return (
     <Box
@@ -20,7 +40,19 @@ export default function Home() {
       pt={"120px"}
     >
       <Header />
-      <StudentTable students={students}></StudentTable>
+      {isAuthorized ? (
+        <>
+          {/* <Flex justifyContent={"flex-end"} pt={10} pr={12}>
+            <Button colorScheme="teal" size={"lg"} w={"150px"}>
+              Add
+            </Button>
+          </Flex> */}
+          <AddStudent students={students} mutateStudents={mutateStudents} />
+          <StudentTable students={students}></StudentTable>
+        </>
+      ) : (
+        <></>
+      )}
       <Footer />
     </Box>
   );

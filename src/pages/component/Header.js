@@ -1,7 +1,9 @@
 import { HStack, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const Header = () => {
+  const router = useRouter();
   return (
     <HStack
       position={"absolute"}
@@ -17,7 +19,8 @@ const Header = () => {
         alt="Metamask"
         width="280"
         height="280"
-        style={{ marginTop: "170px" }}
+        style={{ marginTop: "170px", cursor: "pointer" }}
+        onClick={() => router.push("/")}
       />
       <Text
         fontSize={"6xl"}

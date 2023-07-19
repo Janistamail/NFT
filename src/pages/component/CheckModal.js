@@ -9,40 +9,31 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-
-function NFTModal({ tokenId, contract }) {
+import useSearchCheckMutation from "../../../hooks/use-search-mutation.hook";
+const CheckModal = ({ searchName }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [nfts, setNFTs] = useState([]);
+  const { searchCheck, graduatedData } = useSearchCheckMutation();
 
-  useEffect(() => {
-    const getNFTs = async () => {
-      try {
-        if (tokenId) {
-          const tokenURI = await contract.methods.tokenURI(tokenId).call();
-          console.log(tokenURI);
-
-          await fetch(tokenURI).then(async (res) => {
-            const data = await res.json();
-            setNFTs(data.image);
-          });
-        }
-      } catch (e) {
-        console.log("This tokenID hasn't been minted yet");
-      }
-    };
-    getNFTs();
-  }, [tokenId, contract]);
+  const handleOnClick = async () => {
+    const splitName = searchName.split(" ");
+    const data = await searchCheck({
+      firstname: splitName[0],
+      lastname: splitName[1],
+    });
+    console.log({ data, graduatedData });
+    onOpen();
+  };
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme="teal" size="lg" w={"115px"}>
-        My NFT
+      <Button onClick={handleOnClick} colorScheme="teal" size="lg" w={"115px"}>
+        Search
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Certificate</ModalHeader>
-          <ModalBody>
+          {/* <ModalBody>
             {nfts.length ? (
               <div>
                 <img src={nfts} alt={"nft"} />
@@ -50,7 +41,7 @@ function NFTModal({ tokenId, contract }) {
             ) : (
               "No NFT"
             )}
-          </ModalBody>
+          </ModalBody> */}
 
           <ModalFooter>
             <Button onClick={onClose} colorScheme="teal" size="lg">
@@ -61,6 +52,6 @@ function NFTModal({ tokenId, contract }) {
       </Modal>
     </>
   );
-}
+};
 
-export default NFTModal;
+export default CheckModal;

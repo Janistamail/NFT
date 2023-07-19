@@ -8,7 +8,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
-function StatusModal({ onCloseStatus, isOpenStatus, isMintSuccess }) {
+function StatusModal({ onCloseStatus, isOpenStatus, mintStatus }) {
   return (
     <>
       {isOpenStatus && (
@@ -19,19 +19,31 @@ function StatusModal({ onCloseStatus, isOpenStatus, isMintSuccess }) {
           zIndex={2}
         >
           <Alert
-            status={isMintSuccess ? "success" : "error"}
+            status={
+              mintStatus === "success"
+                ? "success"
+                : mintStatus === "error"
+                ? "error"
+                : "info"
+            }
             w={"25%"}
             onCloseStatus={onCloseStatus}
           >
             <AlertIcon />
             <Box mr="auto">
               <AlertTitle>
-                {isMintSuccess ? "Success!" : "Something went wrong!"}
+                {mintStatus === "success"
+                  ? "Success!"
+                  : mintStatus === "error"
+                  ? "Something went wrong!"
+                  : ""}
               </AlertTitle>
               <AlertDescription>
-                {isMintSuccess
+                {mintStatus === "success"
                   ? "Your certificate has been minted."
-                  : "There was an error processing your request."}
+                  : mintStatus === "error"
+                  ? "There was an error processing your request."
+                  : "loading..."}
               </AlertDescription>
             </Box>
             <CloseButton

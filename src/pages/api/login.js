@@ -10,13 +10,7 @@ export default async function handler(req, res) {
         },
       });
       const data = await response.json();
-      let newData;
-      if (data.role === "admin") {
-        newData = true;
-      } else if (data.role === "student") {
-        newData = false;
-      }
-      res.status(200).send(data.role);
+      res.status(200).send(data);
     }
   } catch (e) {
     res.status(400).send(e);

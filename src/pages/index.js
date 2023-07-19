@@ -1,63 +1,32 @@
 import { Button, HStack, Text, Tooltip, VStack } from "@chakra-ui/react";
-import detectEthereumProvider from "@metamask/detect-provider";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Web3 from "web3";
 import useLoginMutation from "../../hooks/use-login-mutation.hook";
+import { navigateLogin, web3_check_metamask } from "../../utils/navigateLogin";
 import Footer from "./component/Footer";
 import Header from "./component/Header";
 
-const devMode = false; //metamask = false
 export default function Login() {
   const router = useRouter();
   const [showLogin, setShowLogin] = useState(false);
   const { isAdmin } = useLoginMutation();
-  const loadBlockchainData = async (web3, connectedWallet) => {
+
+  const loginRole = async () => {
+    const { web3, connectedWallet } = await navigateLogin();
     const ganacheAccounts = await web3.eth.getAccounts(); //IMPROVE:
-    const isAdminAccount = await isAdmin({
+    const { role } = await isAdmin({
       login_account: ganacheAccounts[0],
     });
 
-    if (isAdminAccount) {
+    if (role === "admin") {
       router.push("/home");
-    } else {
+    } else if (role === "student") {
       router.push({ pathname: "/owner", query: { account: connectedWallet } });
+    } else {
+      router.push("/notAuthorized");
     }
   };
-  //----------------------------------------------
-  function web3_check_metamask() {
-    if (typeof window !== "undefined") {
-      return !window.ethereum ? false : true;
-    }
-  }
-
-  async function web3_metamask_login() {
-    // Check first if the user has the MetaMask installed
-    if (devMode) {
-      //10 accounts
-      const web3 = new Web3(
-        new Web3.providers.WebsocketProvider("ws://localhost:7545")
-      );
-    } else {
-      //metamask
-      if (web3_check_metamask()) {
-        const provider = await detectEthereumProvider();
-        if (provider) {
-          console.log("ethereum wallet is connected");
-          window.web3 = new Web3(provider);
-          const web3 = window.web3;
-          ethereum
-            .request({ method: "eth_requestAccounts" })
-            .then(async (connectedWallet) => {
-              await loadBlockchainData(web3, connectedWallet[0]);
-            });
-        } else {
-          console.log("no ethereum wallet detected (no provider)");
-        }
-      }
-    }
-  }
 
   return (
     <VStack
@@ -105,7 +74,7 @@ export default function Login() {
           p="50px"
         >
           <Text fontSize={"3xl"}>Hover here to detect Metamask extension</Text>
-          <Image src="/detect.gif" alt="Metamask" width="200" height="200" />
+          {/* <Image src="/detect.gif" alt="Metamask" width="200" height="200" /> */}
         </HStack>
       </Tooltip>
       <VStack
@@ -124,12 +93,12 @@ export default function Login() {
           <Text fontSize={"3xl"}>
             Metamask wallet Login extension &nbsp; ➡️ &nbsp;
           </Text>
-          <Button colorScheme="teal" onClick={() => web3_metamask_login()}>
+          <Button colorScheme="teal" onClick={() => loginRole()}>
             Login
           </Button>
-          {showLogin && (
+          {/* {showLogin && (
             <Image src="/door-lock.gif" alt="Login" width="100" height="100" />
-          )}
+          )} */}
         </HStack>
       </VStack>
       <Footer />

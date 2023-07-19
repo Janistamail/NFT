@@ -15,7 +15,7 @@ function MintModal({
   onOpenStatus,
   mutateStudents,
   students,
-  setIsMintSuccess,
+  setMintStatus,
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { triggerMint } = useMintMutation();
@@ -23,21 +23,23 @@ function MintModal({
   const mintFunc = async () => {
     //global --> login with this account
     onClose();
+    onOpenStatus();
     const { token_id, student_id, wallet_account, ipfs_url } = userProfile;
+    setMintStatus("loading");
 
     try {
       const estimatedGas = await contract.methods
         .mint(wallet_account, token_id, ipfs_url)
         .estimateGas({ from: wallet_account });
-      console.log(222);
 
       const result = await contract.methods
         .mint(wallet_account, token_id, ipfs_url)
         .send({ from: wallet_account, gas: Math.round(estimatedGas * 1.5) });
+      console.log(333);
 
-      console.log(result);
       if (result) {
-        setIsMintSuccess(true);
+        console.log(result);
+        setMintStatus("success");
         onOpenStatus();
         const newData = students.map((student) => {
           if (student.student_id === userProfile.student_id) {
@@ -52,7 +54,8 @@ function MintModal({
           mintTo: 1,
         });
       } else {
-        setIsMintSuccess(false);
+        console.log("lll");
+        setMintStatus("error");
         onOpenStatus();
       }
 
@@ -62,6 +65,7 @@ function MintModal({
       //   .send({ from: admin });
       // console.log("Jack", NFTOwner);
     } catch (e) {
+      setMintStatus("error");
       console.log(e);
     }
   };
