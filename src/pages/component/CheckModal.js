@@ -8,19 +8,27 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import useSearchCheckMutation from "../../../hooks/use-search-mutation.hook";
+import { useState } from "react";
 const CheckModal = ({ searchName }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { searchCheck, graduatedData } = useSearchCheckMutation();
+  const { searchCheck } = useSearchCheckMutation();
+  const [nft, setNFT] = useState(null);
 
   const handleOnClick = async () => {
-    const splitName = searchName.split(" ");
+    const splitName = searchName ? searchName.split(" ") : "";
     const data = await searchCheck({
       firstname: splitName[0],
       lastname: splitName[1],
     });
-    console.log({ data, graduatedData });
+    if (data.ipfs_url) {
+      await fetch(data.ipfs_url).then(async (res) => {
+        const nftImg = await res.json();
+        setNFT(nftImg.image);
+      });
+    } else {
+      setNFT(null);
+    }
     onOpen();
   };
 
@@ -33,15 +41,15 @@ const CheckModal = ({ searchName }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Certificate</ModalHeader>
-          {/* <ModalBody>
-            {nfts.length ? (
+          <ModalBody>
+            {nft ? (
               <div>
-                <img src={nfts} alt={"nft"} />
+                <img src={nft} alt={"nft"} />
               </div>
             ) : (
               "No NFT"
             )}
-          </ModalBody> */}
+          </ModalBody>
 
           <ModalFooter>
             <Button onClick={onClose} colorScheme="teal" size="lg">

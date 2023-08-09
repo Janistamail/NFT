@@ -42,11 +42,6 @@ export default function Home() {
       <Header />
       {isAuthorized ? (
         <>
-          {/* <Flex justifyContent={"flex-end"} pt={10} pr={12}>
-            <Button colorScheme="teal" size={"lg"} w={"150px"}>
-              Add
-            </Button>
-          </Flex> */}
           <AddStudent students={students} mutateStudents={mutateStudents} />
           <StudentTable students={students}></StudentTable>
         </>

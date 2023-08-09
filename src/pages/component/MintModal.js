@@ -35,10 +35,8 @@ function MintModal({
       const result = await contract.methods
         .mint(wallet_account, token_id, ipfs_url)
         .send({ from: wallet_account, gas: Math.round(estimatedGas * 1.5) });
-      console.log(333);
 
       if (result) {
-        console.log(result);
         setMintStatus("success");
         onOpenStatus();
         const newData = students.map((student) => {
@@ -47,14 +45,12 @@ function MintModal({
           }
           return student;
         });
-        console.log(newData);
         mutateStudents(newData);
         await triggerMint({
           student_id: student_id,
           mintTo: 1,
         });
       } else {
-        console.log("lll");
         setMintStatus("error");
         onOpenStatus();
       }

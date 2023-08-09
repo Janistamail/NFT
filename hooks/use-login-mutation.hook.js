@@ -1,6 +1,7 @@
 import useSWRMutation from "swr/mutation";
 
 async function sendRequest(url, { arg }) {
+  console.log("0-dz", url);
   return fetch(url, {
     method: "POST",
     body: JSON.stringify(arg),

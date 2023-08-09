@@ -1,7 +1,6 @@
 import useSWRMutation from "swr/mutation";
 
 async function sendRequest(url, { arg }) {
-  console.log(url);
   return fetch(url, {
     method: "POST",
     body: JSON.stringify(arg),
@@ -11,11 +10,11 @@ async function sendRequest(url, { arg }) {
   }).then((res) => res.json());
 }
 
-export default function useSearchCheckMutation() {
-  const { trigger: searchCheck, data: graduatedData } = useSWRMutation(
-    "/api/search",
+export default function useSearchMutation() {
+  const { trigger: searchCheck, data } = useSWRMutation(
+    "/api/check",
     sendRequest
   );
 
-  return { searchCheck, graduatedData };
+  return { searchCheck, data };
 }

@@ -1,16 +1,10 @@
-import { Box, Input, VStack } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { Box, Button, HStack, Text } from "@chakra-ui/react";
 import Footer from "./component/Footer";
 import Header from "./component/Header";
+import { useRouter } from "next/router";
 
 export default function notAuthorized() {
   const router = useRouter();
-  const [searchName, setSearchName] = useState();
-  const searchFunc = (value) => {
-    setSearchName(value);
-  };
-
   return (
     <Box
       bgColor={"#81E6D9"}
@@ -20,30 +14,35 @@ export default function notAuthorized() {
       pt={"120px"}
     >
       <Header />
-      <VStack alignItems={"center"} gap={10}>
-        <Input
-          placeholder="name"
-          size="lg"
-          w={400}
-          mt={70}
-          borderColor={"teal"}
-          onChange={(event) => searchFunc(event.target.value)}
-        />
-        {/* <CheckModal searchName={searchName} /> */}
-
-        {/* <Text fontSize={"3xl"} textAlign={"center"} pt={"220px"} color={"teal"}>
-          You are <b>not</b> authorized to access this web application! <br />
-          Please contact <b>xx-xxxxxxx</b> to verify your identity.
-        </Text>
+      <Text
+        textAlign={"center"}
+        fontSize={"3xl"}
+        fontWeight={"bold"}
+        color={"teal.500"}
+        mt={"200px"}
+      >
+        You have not been authorized. <br /> Please contact xx-xxxxxxxx to check
+        your Authorization.
+      </Text>
+      <HStack justifyContent={"center"} mt="50px">
         <Button
           onClick={() => router.push("/")}
-          colorScheme="teal"
+          color={"white"}
+          bgColor={"teal.500"}
           size={"lg"}
-          w={"150px"}
         >
-          Back
-        </Button> */}
-      </VStack>
+          Home
+        </Button>
+        <Button
+          onClick={() => router.push("/check")}
+          color={"white"}
+          bgColor={"teal.500"}
+          size={"lg"}
+        >
+          Search student's certicifate
+        </Button>
+      </HStack>
+
       <Footer />
     </Box>
   );

@@ -1,4 +1,4 @@
-import { Button, HStack, Text, Tooltip, VStack } from "@chakra-ui/react";
+import { Box, Button, HStack, Text, Tooltip, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -74,7 +74,6 @@ export default function Login() {
           p="50px"
         >
           <Text fontSize={"3xl"}>Hover here to detect Metamask extension</Text>
-          {/* <Image src="/detect.gif" alt="Metamask" width="200" height="200" /> */}
         </HStack>
       </Tooltip>
       <VStack
@@ -96,11 +95,19 @@ export default function Login() {
           <Button colorScheme="teal" onClick={() => loginRole()}>
             Login
           </Button>
-          {/* {showLogin && (
-            <Image src="/door-lock.gif" alt="Login" width="100" height="100" />
-          )} */}
         </HStack>
       </VStack>
+      <Box height={"80px"}>
+        <Button
+          mt={"50px"}
+          onClick={() => router.push("/check")}
+          color={"white"}
+          bgColor={"teal.500"}
+          size={"lg"}
+        >
+          Search student's certicifate
+        </Button>
+      </Box>
       <Footer />
     </VStack>
   );
