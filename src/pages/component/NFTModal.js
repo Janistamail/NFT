@@ -19,7 +19,6 @@ function NFTModal({ tokenId, contract }) {
       try {
         if (tokenId) {
           const tokenURI = await contract.methods.tokenURI(tokenId).call();
-          console.log(tokenURI);
 
           await fetch(tokenURI).then(async (res) => {
             const data = await res.json();

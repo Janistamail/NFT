@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   FormControl,
   Input,
@@ -23,6 +22,9 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import useDeleteStudentsMutation from "../../../hooks/use-delete-students-mutation.hook";
+import DeleteModal from "./DeleteModal";
+import EditModal from "./EditModal";
 
 const OverFlowText = ({ children, label }) => {
   return (
@@ -49,9 +51,10 @@ const OverFlowText = ({ children, label }) => {
   );
 };
 
-const StudentTable = ({ children, students }) => {
+const StudentTable = ({ children, students, mutateStudents }) => {
   const router = useRouter();
   const { isOpen, onClose } = useDisclosure();
+  const { deleteStudent } = useDeleteStudentsMutation();
   const [editStudentAccount, setEditStudentAccount] = useState("");
   const onDiscard = () => {
     onClose();
@@ -86,7 +89,7 @@ const StudentTable = ({ children, students }) => {
       {children}
 
       <Text fontSize="4xl" color={"teal.400"} fontWeight="bold">
-        Students who graduated and will receive graduation certificate in 2000
+        Diplomates who graduated and will receive graduation certificate
       </Text>
       <TableContainer
         maxW={"80%"}
@@ -104,7 +107,8 @@ const StudentTable = ({ children, students }) => {
               <Th fontSize="lg">Firstname</Th>
               <Th fontSize="lg">Lastname</Th>
               <Th fontSize="lg">Certificate</Th>
-              <Th fontSize="lg">Mint status</Th>
+              <Th fontSize="lg">Mint</Th>
+              <Th fontSize="lg">Others</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -144,6 +148,18 @@ const StudentTable = ({ children, students }) => {
                       ✅
                     </Text>
                   )}
+                </Td>
+                <Td fontSize={"md"} w={"110px"}>
+                  <EditModal
+                    student={student}
+                    mutateStudents={mutateStudents}
+                    students={students}
+                  />
+                  <DeleteModal
+                    wallet={student.wallet_account}
+                    mutateStudents={mutateStudents}
+                    students={students}
+                  />
                 </Td>
               </Tr>
             ))}

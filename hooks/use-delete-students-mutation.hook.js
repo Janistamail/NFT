@@ -1,10 +1,8 @@
 import useSWRMutation from "swr/mutation";
 
 async function sendRequest(url, { arg }) {
-  console.log(arg);
-
   return fetch(url, {
-    method: "POST",
+    method: "DELETE",
     body: JSON.stringify(arg),
     headers: {
       "Content-Type": "application/json",
@@ -12,8 +10,8 @@ async function sendRequest(url, { arg }) {
   }).then((res) => res.json());
 }
 
-export default function useAddStudentsMutation() {
-  const { trigger: addstudent } = useSWRMutation("/api/add", sendRequest);
+export default function useDeleteStudentsMutation() {
+  const { trigger: deleteStudent } = useSWRMutation("/api/delete", sendRequest);
 
-  return { addstudent };
+  return { deleteStudent };
 }

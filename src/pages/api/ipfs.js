@@ -1,7 +1,10 @@
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import fs from "fs";
 import puppeteer from "puppeteer";
-const storage = new ThirdwebStorage();
+const storage = new ThirdwebStorage({
+  secretKey:
+    "5Mz2brz6QzoFv54eFPxnxSd3nPmY9FZWUlzC0GO-_q0XpQlLj5PqV-jWkUOrgcx1HwWKLUrLkpmQCVkr4UbCnA",
+});
 
 export default async function handler(req, res) {
   //sendrequest in hooks = tell detail, in api = real call BN

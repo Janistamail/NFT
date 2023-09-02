@@ -17,11 +17,10 @@ export async function navigateLogin() {
   } else {
     //metamask
     if (web3_check_metamask()) {
-      console.log("rrr");
       const provider = await detectEthereumProvider();
       if (provider) {
         console.log("ethereum wallet is connected");
-        window.web3 = new Web3(provider);
+      window.web3 = new Web3(provider);
         const web3 = window.web3;
         const connectedWallet = await ethereum
           .request({ method: "eth_requestAccounts" })

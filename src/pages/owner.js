@@ -46,6 +46,7 @@ const owner = () => {
         router.push("/notAuthorized");
       }
     };
+
     loginRole();
 
     const networkId = await web3.eth.net.getId();
@@ -54,6 +55,7 @@ const owner = () => {
     if (networkData) {
       const abi = MyNFT.abi;
       const contractAddress = networkData.address;
+
       //use web3 to create contract and interact with smart contracts
       const contractData = new web3.eth.Contract(abi, contractAddress);
       if (contractData) {

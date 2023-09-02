@@ -43,7 +43,10 @@ export default function Home() {
       {isAuthorized ? (
         <>
           <AddStudent students={students} mutateStudents={mutateStudents} />
-          <StudentTable students={students}></StudentTable>
+          <StudentTable
+            students={students}
+            mutateStudents={mutateStudents}
+          ></StudentTable>
         </>
       ) : (
         <></>

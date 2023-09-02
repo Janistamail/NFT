@@ -8,12 +8,34 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import useSearchCheckMutation from "../../../hooks/use-search-mutation.hook";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { navigateLogin } from "../../../utils/navigateLogin";
+import MyNFT from "../../abis/MyNFT.json";
+import useSearchMutation from "../../../hooks/use-search-mutation.hook";
+
 const CheckModal = ({ searchName }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { searchCheck } = useSearchCheckMutation();
+  const { searchCheck } = useSearchMutation();
   const [nft, setNFT] = useState(null);
+  const [contract, setContract] = useState();
+
+  const init = async () => {
+    const { web3, connectedWallet } = await navigateLogin();
+
+    const networkId = await web3.eth.net.getId();
+    const networkData = MyNFT.networks[networkId];
+
+    if (networkData) {
+      const abi = MyNFT.abi;
+      const contractAddress = networkData.address;
+      const contractData = new web3.eth.Contract(abi, contractAddress);
+      if (contractData) {
+        setContract(contractData);
+      }
+    } else {
+      window.alert("Smart contract not deployed");
+    }
+  };
 
   const handleOnClick = async () => {
     const splitName = searchName ? searchName.split(" ") : "";
@@ -21,16 +43,24 @@ const CheckModal = ({ searchName }) => {
       firstname: splitName[0],
       lastname: splitName[1],
     });
-    if (data.ipfs_url) {
-      await fetch(data.ipfs_url).then(async (res) => {
-        const nftImg = await res.json();
-        setNFT(nftImg.image);
-      });
-    } else {
+    try {
+      if (data?.token_id) {
+        const tokenURI = await contract.methods.tokenURI(data.token_id).call();
+        await fetch(tokenURI).then(async (res) => {
+          const data = await res.json();
+          setNFT(data.image);
+        });
+      }
+    } catch (e) {
       setNFT(null);
+      console.log("This tokenID hasn't been minted yet");
     }
     onOpen();
   };
+
+  useEffect(() => {
+    init();
+  }, []);
 
   return (
     <>

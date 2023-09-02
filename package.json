@@ -16,7 +16,7 @@
     "@metamask/detect-provider": "^2.0.0",
     "@next/font": "13.1.1",
     "@openzeppelin/contracts": "^4.8.3",
-    "@thirdweb-dev/storage": "^1.0.6",
+    "@thirdweb-dev/storage": "^1.2.9",
     "bignumber.js": "^9.1.1",
     "eslint-config-next": "13.1.1",
     "formik": "^2.4.0",
