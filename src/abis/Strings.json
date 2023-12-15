@@ -1,9 +1,9 @@
 {
   "contractName": "Strings",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.20+commit.a1b79de6\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"details\":\"String operations.\",\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"@openzeppelin/contracts/utils/Strings.sol\":\"Strings\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/utils/Strings.sol\":{\"keccak256\":\"0xa4d1d62251f8574deb032a35fc948386a9b4de74b812d4f545a1ac120486b48a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8c969013129ba9e651a20735ef659fef6d8a1139ea3607bd4b26ddea2d645634\",\"dweb:/ipfs/QmVhVa6LGuzAcB8qgDtVHRkucn4ihj5UZr8xBLcJkP6ucb\"]},\"@openzeppelin/contracts/utils/math/Math.sol\":{\"keccak256\":\"0xa1e8e83cd0087785df04ac79fb395d9f3684caeaf973d9e2c71caef723a3a5d6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://33bbf48cc069be677705037ba7520c22b1b622c23b33e1a71495f2d36549d40b\",\"dweb:/ipfs/Qmct36zWXv3j7LZB83uwbg7TXwnZSN1fqHNDZ93GG98bGz\"]}},\"version\":1}",
-  "bytecode": "0x6055604b600b8282823980515f1a607314603f577f4e487b71000000000000000000000000000000000000000000000000000000005f525f60045260245ffd5b305f52607381538281f3fe730000000000000000000000000000000000000000301460806040525f80fdfea264697066735822122070d7f1a57ad75bfc92b4e622ea1bd5eff4a151518775a165b8c67c23d0f055c464736f6c63430008140033",
-  "deployedBytecode": "0x730000000000000000000000000000000000000000301460806040525f80fdfea264697066735822122070d7f1a57ad75bfc92b4e622ea1bd5eff4a151518775a165b8c67c23d0f055c464736f6c63430008140033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.23+commit.f704f362\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"details\":\"String operations.\",\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"@openzeppelin/contracts/utils/Strings.sol\":\"Strings\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/utils/Strings.sol\":{\"keccak256\":\"0xa4d1d62251f8574deb032a35fc948386a9b4de74b812d4f545a1ac120486b48a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8c969013129ba9e651a20735ef659fef6d8a1139ea3607bd4b26ddea2d645634\",\"dweb:/ipfs/QmVhVa6LGuzAcB8qgDtVHRkucn4ihj5UZr8xBLcJkP6ucb\"]},\"@openzeppelin/contracts/utils/math/Math.sol\":{\"keccak256\":\"0xa1e8e83cd0087785df04ac79fb395d9f3684caeaf973d9e2c71caef723a3a5d6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://33bbf48cc069be677705037ba7520c22b1b622c23b33e1a71495f2d36549d40b\",\"dweb:/ipfs/Qmct36zWXv3j7LZB83uwbg7TXwnZSN1fqHNDZ93GG98bGz\"]}},\"version\":1}",
+  "bytecode": "0x6055604b600b8282823980515f1a607314603f577f4e487b71000000000000000000000000000000000000000000000000000000005f525f60045260245ffd5b305f52607381538281f3fe730000000000000000000000000000000000000000301460806040525f80fdfea2646970667358221220af29ace2207c8ee4d7616d97b60d50a3ad71ce452f6ee2a660edc844c00d704f64736f6c63430008170033",
+  "deployedBytecode": "0x730000000000000000000000000000000000000000301460806040525f80fdfea2646970667358221220af29ace2207c8ee4d7616d97b60d50a3ad71ce452f6ee2a660edc844c00d704f64736f6c63430008170033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
@@ -438,16 +438,19 @@
                     },
                     {
                       "AST": {
+                        "nativeSrc": "708:67:8",
                         "nodeType": "YulBlock",
                         "src": "708:67:8",
                         "statements": [
                           {
+                            "nativeSrc": "726:35:8",
                             "nodeType": "YulAssignment",
                             "src": "726:35:8",
                             "value": {
                               "arguments": [
                                 {
                                   "name": "buffer",
+                                  "nativeSrc": "737:6:8",
                                   "nodeType": "YulIdentifier",
                                   "src": "737:6:8"
                                 },
@@ -455,6 +458,7 @@
                                   "arguments": [
                                     {
                                       "kind": "number",
+                                      "nativeSrc": "749:2:8",
                                       "nodeType": "YulLiteral",
                                       "src": "749:2:8",
                                       "type": "",
@@ -462,30 +466,36 @@
                                     },
                                     {
                                       "name": "length",
+                                      "nativeSrc": "753:6:8",
                                       "nodeType": "YulIdentifier",
                                       "src": "753:6:8"
                                     }
                                   ],
                                   "functionName": {
                                     "name": "add",
+                                    "nativeSrc": "745:3:8",
                                     "nodeType": "YulIdentifier",
                                     "src": "745:3:8"
                                   },
+                                  "nativeSrc": "745:15:8",
                                   "nodeType": "YulFunctionCall",
                                   "src": "745:15:8"
                                 }
                               ],
                               "functionName": {
                                 "name": "add",
+                                "nativeSrc": "733:3:8",
                                 "nodeType": "YulIdentifier",
                                 "src": "733:3:8"
                               },
+                              "nativeSrc": "733:28:8",
                               "nodeType": "YulFunctionCall",
                               "src": "733:28:8"
                             },
                             "variableNames": [
                               {
                                 "name": "ptr",
+                                "nativeSrc": "726:3:8",
                                 "nodeType": "YulIdentifier",
                                 "src": "726:3:8"
                               }
@@ -562,6 +572,7 @@
                           },
                           {
                             "AST": {
+                              "nativeSrc": "902:84:8",
                               "nodeType": "YulBlock",
                               "src": "902:84:8",
                               "statements": [
@@ -570,6 +581,7 @@
                                     "arguments": [
                                       {
                                         "name": "ptr",
+                                        "nativeSrc": "932:3:8",
                                         "nodeType": "YulIdentifier",
                                         "src": "932:3:8"
                                       },
@@ -579,11 +591,13 @@
                                             "arguments": [
                                               {
                                                 "name": "value",
+                                                "nativeSrc": "946:5:8",
                                                 "nodeType": "YulIdentifier",
                                                 "src": "946:5:8"
                                               },
                                               {
                                                 "kind": "number",
+                                                "nativeSrc": "953:2:8",
                                                 "nodeType": "YulLiteral",
                                                 "src": "953:2:8",
                                                 "type": "",
@@ -592,35 +606,43 @@
                                             ],
                                             "functionName": {
                                               "name": "mod",
+                                              "nativeSrc": "942:3:8",
                                               "nodeType": "YulIdentifier",
                                               "src": "942:3:8"
                                             },
+                                            "nativeSrc": "942:14:8",
                                             "nodeType": "YulFunctionCall",
                                             "src": "942:14:8"
                                           },
                                           {
                                             "name": "_SYMBOLS",
+                                            "nativeSrc": "958:8:8",
                                             "nodeType": "YulIdentifier",
                                             "src": "958:8:8"
                                           }
                                         ],
                                         "functionName": {
                                           "name": "byte",
+                                          "nativeSrc": "937:4:8",
                                           "nodeType": "YulIdentifier",
                                           "src": "937:4:8"
                                         },
+                                        "nativeSrc": "937:30:8",
                                         "nodeType": "YulFunctionCall",
                                         "src": "937:30:8"
                                       }
                                     ],
                                     "functionName": {
                                       "name": "mstore8",
+                                      "nativeSrc": "924:7:8",
                                       "nodeType": "YulIdentifier",
                                       "src": "924:7:8"
                                     },
+                                    "nativeSrc": "924:44:8",
                                     "nodeType": "YulFunctionCall",
                                     "src": "924:44:8"
                                   },
+                                  "nativeSrc": "924:44:8",
                                   "nodeType": "YulExpressionStatement",
                                   "src": "924:44:8"
                                 }
@@ -1822,6 +1844,7 @@
                     "nodeType": "VariableDeclarationStatement",
                     "src": "1725:26:8"
                   },
+                  "isSimpleCounterLoop": false,
                   "loopExpression": {
                     "expression": {
                       "id": 1800,
@@ -2419,11 +2442,11 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.8.20+commit.a1b79de6.Emscripten.clang"
+    "version": "0.8.23+commit.f704f362.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-05-31T11:56:42.198Z",
+  "updatedAt": "2023-12-02T02:52:10.152Z",
   "devdoc": {
     "details": "String operations.",
     "kind": "dev",
